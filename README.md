@@ -9,7 +9,7 @@ This application displays a transparent window with a gif that you can freely mo
 
 We used Java 11 here, so no one should have any problems running this application
 
-However, if you need Java 11, install it here: [Java 11 Install](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+However, if you need Java 25, install it here: [Java 25 Install](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 
 #### Project information
 
