@@ -1,68 +1,200 @@
+/* ── Root ──────────────────────────────────────────────────── */
 .root {
-    -fx-background-color: #2d2d2d;
-    -fx-text-fill: white;
+    -fx-background-color: #1a1a1a;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+}
+
+/* ── Title bar ─────────────────────────────────────────────── */
+#title-background {
+    -fx-background-color: #141414;
+    -fx-border-color: transparent transparent #252525 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-radius: 6 6 0 0;
 }
 
 #gui-title {
-    -fx-font-size: 14;
-    -fx-font-weight: bold;
-    -fx-fill: white;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-fill: #484848;
 }
 
-#authors-text{
-    -fx-font-size: 10;
-    -fx-fill: white;
+/* ── Section labels ────────────────────────────────────────── */
+#section-label {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-fill: #4a4a4a;
 }
 
-#title-background {
-    -fx-background-color: rgba(25, 25, 25);
-    -fx-border-radius: 15 15 0 0;
-    -fx-background-radius: 15 15 0 0;
+/* ── Text fields ───────────────────────────────────────────── */
+.text-field {
+    -fx-background-color: #111111;
+    -fx-border-color: #252525;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #c8c8c8;
+    -fx-prompt-text-fill: #2e2e2e;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-padding: 6 10 6 10;
 }
 
-.text-field, .button, .check-box {
-    -fx-background-radius: 15 15 15 15;
-    -fx-background-color: rgba(25, 25, 25);
-    -fx-font-size: 12;
-    -fx-text-fill: white;
+.text-field:focused {
+    -fx-border-color: #3a3a3a;
+    -fx-background-color: #111111;
 }
 
+/* ── Buttons ───────────────────────────────────────────────── */
 .button {
-    -fx-padding: 8px 12px;
-}
-
-.check-box {
-    -fx-padding: 8px;
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #252525;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #555555;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-padding: 6 12 6 12;
+    -fx-cursor: hand;
 }
 
 .button:hover {
-    -fx-background-color: rgba(35, 35, 35);
+    -fx-border-color: #333333;
+    -fx-text-fill: #888888;
 }
 
-.main-container {
-    -fx-border-color: white;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
+#save-button {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #111111;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 16 6 16;
+    -fx-cursor: hand;
+}
+
+#save-button:hover {
+    -fx-background-color: #d0d0d0;
+}
+
+#exit-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #252525;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #444444;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-padding: 6 14 6 14;
+    -fx-cursor: hand;
+}
+
+#exit-button:hover {
+    -fx-border-color: #333333;
+    -fx-text-fill: #666666;
+}
+
+/* ── CheckBoxes ────────────────────────────────────────────── */
+.check-box {
+    -fx-background-color: #111111;
+    -fx-border-color: #252525;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10;
+    -fx-text-fill: #555555;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.check-box:selected {
+    -fx-border-color: #333333;
+    -fx-text-fill: #aaaaaa;
+}
+
+.check-box .box {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #2e2e2e;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #c8c8c8;
+    -fx-border-color: #c8c8c8;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #111111;
+}
+
+/* ── ChoiceBox ─────────────────────────────────────────────── */
+.choice-box {
+    -fx-background-color: #111111;
+    -fx-border-color: #252525;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-mark-color: #444444;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.choice-box:hover {
+    -fx-border-color: #333333;
+}
+
+.choice-box > .label {
+    -fx-text-fill: #c8c8c8;
 }
 
 .choice-box .context-menu {
--fx-background-color: black;
-}
-.choice-box .menu-item:focused {
--fx-background-color: rgba(100, 100, 100);
-}
-.choice-box .menu-item > .label {
--fx-text-fill: white;
-}
-.choice-box .menu-item:focused > .label {
--fx-text-fill: black;
-}
-.choice-box {
-  -fx-mark-color: rgba(100, 100, 100);
-  -fx-background-radius: 15 15 15 15;
-  -fx-background-color: rgba(25, 25, 25);
-  -fx-font-size: 14;
-  -fx-font-weight: bold;
+    -fx-background-color: #141414;
+    -fx-border-color: #252525;
+    -fx-border-width: 1;
 }
 
-.choice-box > .label { -fx-text-fill: white; }
+.choice-box .menu-item {
+    -fx-background-color: transparent;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #1e1e1e;
+}
+
+.choice-box .menu-item > .label {
+    -fx-text-fill: #c8c8c8;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+}
+
+/* ── Separator ─────────────────────────────────────────────── */
+.separator .line {
+    -fx-border-color: #1f1f1f;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Authors text ──────────────────────────────────────────── */
+#authors-text {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 10px;
+    -fx-fill: #2e2e2e;
+    -fx-line-spacing: 2;
+}
+
+/* ── Main container ────────────────────────────────────────── */
+.main-container {
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-background-color: #1a1a1a;
+}

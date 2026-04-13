@@ -28,62 +28,87 @@ public class OptionDisplay {
 
     public void showOptionDisplay(Stage stage) {
         setStageLocation(stage);
-
         GridPane gridPane = generateOptions(stage);
-
         Scene scene = new Scene(gridPane);
         scene.setFill(Color.TRANSPARENT);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/assets/styles/theme.css")).toString());
-
         stage.setScene(scene);
         stage.show();
     }
 
-    private GridPane generateOptions(Stage stage){
+    private GridPane generateOptions(Stage stage) {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(8);
+        gridPane.setVgap(0);
 
-        Region blackBox = new Region();
-        blackBox.setMaxSize(stage.getMaxWidth(), 50);
-        GridPane.setMargin(blackBox, new Insets(0, 0, 45, 0));
-        blackBox.setId("title-background");
-        gridPane.add(blackBox, 0, 0, 3, 2);
+        // Title bar
+        Region titleBg = new Region();
+        titleBg.setMaxSize(Double.MAX_VALUE, 42);
+        titleBg.setMinHeight(42);
+        titleBg.setId("title-background");
+        GridPane.setMargin(titleBg, new Insets(0, 0, 0, 0));
+        gridPane.add(titleBg, 0, 0, 3, 1);
 
         Text title = new Text("GifDisplay Options");
         title.setId("gui-title");
-        GridPane.setMargin(title, new Insets(5, 0, 0, 10));
+        GridPane.setMargin(title, new Insets(14, 0, 0, 14));
         gridPane.add(title, 0, 0);
+
+        // Padding top
+        Region topPad = new Region();
+        topPad.setMinHeight(14);
+        gridPane.add(topPad, 0, 1);
+
+        // GIF preset
+        Text gifLabel = new Text("GIF preset");
+        gifLabel.setId("section-label");
+        GridPane.setMargin(gifLabel, new Insets(0, 0, 5, 14));
+        gridPane.add(gifLabel, 0, 2, 2, 1);
 
         ChoiceBox<String> gifChoiceBox = new ChoiceBox<>();
         gifChoiceBox.getItems().addAll(gifsName);
         gifChoiceBox.setValue(config.getConfig().get("Gif").toString());
-        GridPane.setMargin(gifChoiceBox, new Insets(5, 0, 0, 5));
-        gridPane.add(gifChoiceBox, 0, 1);
+        gifChoiceBox.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setMargin(gifChoiceBox, new Insets(0, 14, 12, 14));
+        gridPane.add(gifChoiceBox, 0, 3, 2, 1);
+
+        // Custom GIF path
+        Text gifPathLabel = new Text("Custom gif path");
+        gifPathLabel.setId("section-label");
+        GridPane.setMargin(gifPathLabel, new Insets(0, 0, 5, 14));
+        gridPane.add(gifPathLabel, 0, 4, 2, 1);
 
         gifPathTextField = new TextField();
-        gifPathTextField.setPromptText("Enter path to GIF (leave it empty if u want use standard gifs)");
+        gifPathTextField.setPromptText("Leave empty to use preset above");
         gifPathTextField.setText(config.getConfig().get("GifPath").toString());
         Button gifPathButton = new Button("Browse");
         gifPathButton.setOnAction(e -> browseFile(gifPathTextField));
+        GridPane.setMargin(gifPathTextField, new Insets(0, 4, 12, 14));
+        GridPane.setMargin(gifPathButton, new Insets(0, 14, 12, 0));
+        gridPane.add(gifPathTextField, 0, 5);
+        gridPane.add(gifPathButton, 1, 5);
 
-        gridPane.add(gifPathTextField, 0, 2);
-        gridPane.add(gifPathButton, 1, 2);
-
-        GridPane.setMargin(gifPathTextField, new Insets(5, 0, 0, 5));
-        GridPane.setMargin(gifPathButton, new Insets(5, 0, 0, 5));
+        // Music path
+        Text musicLabel = new Text("Music path");
+        musicLabel.setId("section-label");
+        GridPane.setMargin(musicLabel, new Insets(0, 0, 5, 14));
+        gridPane.add(musicLabel, 0, 6, 2, 1);
 
         musicPathTextField = new TextField();
-        musicPathTextField.setPromptText("Enter path to music");
+        musicPathTextField.setPromptText("Leave empty for default music");
         musicPathTextField.setText(config.getConfig().get("MusicPath").toString());
         Button musicPathButton = new Button("Browse");
         musicPathButton.setOnAction(e -> browseFile(musicPathTextField));
+        GridPane.setMargin(musicPathTextField, new Insets(0, 4, 12, 14));
+        GridPane.setMargin(musicPathButton, new Insets(0, 14, 12, 0));
+        gridPane.add(musicPathTextField, 0, 7);
+        gridPane.add(musicPathButton, 1, 7);
 
-        gridPane.add(musicPathTextField, 0, 3);
-        gridPane.add(musicPathButton, 1, 3);
-
-        GridPane.setMargin(musicPathTextField, new Insets(5, 0, 0, 5));
-        GridPane.setMargin(musicPathButton, new Insets(5, 0, 0, 5));
+        // Size
+        Text sizeLabel = new Text("Size (px)");
+        sizeLabel.setId("section-label");
+        GridPane.setMargin(sizeLabel, new Insets(0, 0, 5, 14));
+        gridPane.add(sizeLabel, 0, 8, 2, 1);
 
         TextField gifSizeTextField = new TextField();
         gifSizeTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -91,56 +116,73 @@ public class OptionDisplay {
             return null;
         }));
         gifSizeTextField.setText(config.getConfig().get("GifSize").toString());
-        gifSizeTextField.setPromptText("Enter gif size (min 50 - max 1000)");
-        GridPane.setMargin(gifSizeTextField, new Insets(5, 0, 0, 5));
-        gridPane.add(gifSizeTextField, 0, 4);
+        gifSizeTextField.setPromptText("50 — 1000");
+        gifSizeTextField.setMaxWidth(80);
+        GridPane.setMargin(gifSizeTextField, new Insets(0, 0, 12, 14));
+        gridPane.add(gifSizeTextField, 0, 9, 2, 1);
 
-        CheckBox useDefaultMusicCheckbox = new CheckBox("Music (leave the music path empty to use default music)");
-        gridPane.add(useDefaultMusicCheckbox, 0, 5);
-        useDefaultMusicCheckbox.setSelected((Boolean) config.getConfig().get("Music"));
-        GridPane.setMargin(useDefaultMusicCheckbox, new Insets(5, 0, 0, 5));
+        // Separator
+        Separator sep = new Separator();
+        GridPane.setMargin(sep, new Insets(4, 14, 12, 14));
+        gridPane.add(sep, 0, 10, 3, 1);
+
+        // Checkboxes
+        HBox checksBox = new HBox(8);
+        GridPane.setMargin(checksBox, new Insets(0, 14, 14, 14));
+
+        CheckBox musicCheckbox = new CheckBox("Music");
+        musicCheckbox.setSelected((Boolean) config.getConfig().get("Music"));
 
         CheckBox alwaysOnTopCheckbox = new CheckBox("Always on top");
-        gridPane.add(alwaysOnTopCheckbox, 0, 6);
         alwaysOnTopCheckbox.setSelected((Boolean) config.getConfig().get("OnTop"));
-        GridPane.setMargin(alwaysOnTopCheckbox, new Insets(5, 0, 0, 5));
 
-        CheckBox savePositionCheckbox = new CheckBox("Save last position on exit");
-        gridPane.add(savePositionCheckbox, 0, 7);
+        CheckBox savePositionCheckbox = new CheckBox("Save position");
         savePositionCheckbox.setSelected((Boolean) config.getConfig().getOrDefault("SavePosition", false));
-        GridPane.setMargin(savePositionCheckbox, new Insets(5, 0, 0, 5));
 
-        HBox buttonBox = new HBox(10);
-        Button saveConfigButton = new Button("Save Config");
-        saveConfigButton.setOnMouseClicked(e -> optionsFunc.saveConfig(gifChoiceBox.getSelectionModel().getSelectedItem(), musicPathTextField.getText(), gifPathTextField.getText(), Integer.parseInt(gifSizeTextField.getText()), useDefaultMusicCheckbox.isSelected(), alwaysOnTopCheckbox.isSelected(), savePositionCheckbox.isSelected()));
-        Button loadConfigButton = new Button("Exit");
-        loadConfigButton.setOnMouseClicked(e -> System.exit(0));
-        buttonBox.getChildren().addAll(saveConfigButton, loadConfigButton);
+        checksBox.getChildren().addAll(musicCheckbox, alwaysOnTopCheckbox, savePositionCheckbox);
+        gridPane.add(checksBox, 0, 11, 3, 1);
 
-        gridPane.add(buttonBox, 0, 8, 2, 1);
-        GridPane.setMargin(buttonBox, new Insets(5, 0, 0, 5));
+        // Footer separator
+        Separator sep2 = new Separator();
+        GridPane.setMargin(sep2, new Insets(4, 0, 0, 0));
+        gridPane.add(sep2, 0, 12, 3, 1);
 
-        Text authorText = new Text("Authors: github.com/DEVS-MARKET\n" +
-                "Order your own app here: discord.gg/KhExwvqZb5");
+        // Authors
+        Text authorText = new Text("github.com/DEVS-MARKET\ndiscord.gg/KhExwvqZb5");
         authorText.setId("authors-text");
-        GridPane.setMargin(authorText, new Insets(5, 0, 0, 5));
-        gridPane.add(authorText, 0, 9);
+        GridPane.setMargin(authorText, new Insets(12, 0, 12, 14));
+        gridPane.add(authorText, 0, 13);
+
+        // Buttons
+        HBox buttonBox = new HBox(8);
+        Button exitButton = new Button("Exit");
+        exitButton.setId("exit-button");
+        exitButton.setOnMouseClicked(e -> System.exit(0));
+
+        Button saveConfigButton = new Button("Save config");
+        saveConfigButton.setId("save-button");
+        saveConfigButton.setOnMouseClicked(e -> optionsFunc.saveConfig(
+                gifChoiceBox.getSelectionModel().getSelectedItem(),
+                musicPathTextField.getText(),
+                gifPathTextField.getText(),
+                Integer.parseInt(gifSizeTextField.getText()),
+                musicCheckbox.isSelected(),
+                alwaysOnTopCheckbox.isSelected(),
+                savePositionCheckbox.isSelected()
+        ));
+
+        buttonBox.getChildren().addAll(exitButton, saveConfigButton);
+        GridPane.setMargin(buttonBox, new Insets(12, 14, 12, 0));
+        gridPane.add(buttonBox, 1, 13);
 
         gridPane.getStyleClass().add("main-container");
         return gridPane;
     }
 
-    private void setStageLocation(Stage stage){
+    private void setStageLocation(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double screenWidth = screenBounds.getWidth();
-        double screenHeight = screenBounds.getHeight();
-
-        double sceneWidth = stage.getWidth();
-        double sceneHeight = stage.getHeight();
-
-        double centerX = (screenWidth - sceneWidth) / 2;
-        double centerY = (screenHeight - sceneHeight) / 2;
-
+        double centerX = (screenBounds.getWidth() - stage.getWidth()) / 2;
+        double centerY = (screenBounds.getHeight() - stage.getHeight()) / 2;
         stage.setX(centerX);
         stage.setY(centerY);
     }
