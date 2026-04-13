@@ -112,8 +112,28 @@ public class OptionDisplay {
         gridPane.add(speedLabel, 0, 8, 2, 1);
 
         ChoiceBox<String> speedChoiceBox = new ChoiceBox<>();
-        Map<String, Double> speedMap = Map.of("x0.5 (Slow)", 0.5, "x1 (Normal)", 1.0, "x1.5 (Fast)", 1.5, "x2 (Very Fast)", 2.0);
-        speedChoiceBox.getItems().addAll("x0.5 (Slow)", "x1 (Normal)", "x1.5 (Fast)", "x2 (Very Fast)");
+        Map<String, Double> speedMap = Map.of(
+            "x0.25 (Very Slow)", 0.25,
+            "x0.5 (Slow)", 0.5,
+            "x0.75 (Slightly Slow)", 0.75,
+            "x1 (Normal)", 1.0,
+            "x1.25 (Slightly Fast)", 1.25,
+            "x1.5 (Fast)", 1.5,
+            "x2 (2x Speed)", 2.0,
+            "x3 (3x Speed)", 3.0,
+            "x4 (4x Speed)", 4.0
+        );
+        speedChoiceBox.getItems().addAll(
+            "x0.25 (Very Slow)",
+            "x0.5 (Slow)",
+            "x0.75 (Slightly Slow)",
+            "x1 (Normal)",
+            "x1.25 (Slightly Fast)",
+            "x1.5 (Fast)",
+            "x2 (2x Speed)",
+            "x3 (3x Speed)",
+            "x4 (4x Speed)"
+        );
         double currentSpeed = ((Number) config.getConfig().getOrDefault("Speed", 1.0)).doubleValue();
         String currentSpeedLabel = speedMap.entrySet().stream()
                 .filter(e -> e.getValue().equals(currentSpeed))
