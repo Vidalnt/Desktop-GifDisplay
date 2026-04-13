@@ -113,6 +113,6 @@ public class GifDisplay extends Application {
     }
 
     public static void initGui() {
-        launch();
+        //launch();
     }
 }

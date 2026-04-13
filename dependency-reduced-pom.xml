@@ -26,7 +26,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>uk.whitedev.desktop.Main</mainClass>
+          <mainClass>uk.whitedev.desktop.Launcher</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -41,7 +41,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>uk.whitedev.desktop.Main</mainClass>
+                  <mainClass>uk.whitedev.desktop.Launcher</mainClass>
                 </transformer>
                 <transformer />
                 <transformer>

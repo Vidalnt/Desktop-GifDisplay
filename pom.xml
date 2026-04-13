@@ -79,9 +79,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>uk.whitedev.desktop.Main</mainClass>
+                    <mainClass>uk.whitedev.desktop.Launcher</mainClass>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -95,7 +96,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>uk.whitedev.desktop.Main</mainClass>
+                                    <mainClass>uk.whitedev.desktop.Launcher</mainClass>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
