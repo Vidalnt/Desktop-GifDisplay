@@ -7,7 +7,7 @@ Due to the growing trend of "Konata Desktop Dancing", we decided to introduce ou
 
 This application displays a transparent window with a gif that you can freely move around the entire screen, it also has the option of adjusting the size and adding your own gif or music ⚡
 
-We used Java 11 here, so no one should have any problems running this application
+We used Java 25 here, so no one should have any problems running this application
 
 However, if you need Java 25, install it here: [Java 25 Install](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 
