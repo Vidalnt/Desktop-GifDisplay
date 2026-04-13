@@ -59,7 +59,7 @@ public class GifDisplay extends Application {
         if(gifPath.isEmpty()) {
             scene = getScene(mainStage, null, standardGif, gifSize);
         }else{
-            Image gifImage = new Image(gifPath);
+            Image gifImage = new Image(new File(gifPath).toURI().toString());
             scene = getScene(mainStage, gifImage, null, gifSize);
         }
 
@@ -107,7 +107,7 @@ public class GifDisplay extends Application {
     private int currentFrameIndex = 0;
     private void updateFrame(List<File> frames, ImageView imageView) {
         if (!frames.isEmpty()) {
-            imageView.setImage(new Image(frames.get(currentFrameIndex).getAbsolutePath()));
+            imageView.setImage(new Image(frames.get(currentFrameIndex).toURI().toString()));
             currentFrameIndex = (currentFrameIndex + 1) % frames.size();
         }
     }
