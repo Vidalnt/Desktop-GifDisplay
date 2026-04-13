@@ -8,7 +8,7 @@ import java.io.IOException;
 public class OptionsFunc {
     private final Config config = Config.getInstance();
 
-    public void saveConfig(String gif, String musicPath, String gifPath, int gifSize, boolean music, boolean onTop, boolean savePosition){
+    public void saveConfig(String gif, String musicPath, String gifPath, int gifSize, boolean music, boolean onTop, boolean savePosition, double speed){
         config.updateConfig("Gif", gif);
         config.updateConfig("MusicPath", musicPath);
         config.updateConfig("GifPath", gifPath);
@@ -16,6 +16,7 @@ public class OptionsFunc {
         config.updateConfig("Music", music);
         config.updateConfig("OnTop", onTop);
         config.updateConfig("SavePosition", savePosition);
+        config.updateConfig("Speed", speed);
         config.saveConfig();
         runGifDisplay();
         System.exit(0);

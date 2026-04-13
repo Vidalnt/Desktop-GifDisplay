@@ -17,6 +17,7 @@ import uk.whitedev.desktop.displays.functions.OptionsFunc;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class OptionDisplay {
@@ -104,11 +105,31 @@ public class OptionDisplay {
         gridPane.add(musicPathTextField, 0, 7);
         gridPane.add(musicPathButton, 1, 7);
 
+        // Speed
+        Text speedLabel = new Text("Animation speed");
+        speedLabel.setId("section-label");
+        GridPane.setMargin(speedLabel, new Insets(0, 0, 5, 14));
+        gridPane.add(speedLabel, 0, 8, 2, 1);
+
+        ChoiceBox<String> speedChoiceBox = new ChoiceBox<>();
+        Map<String, Double> speedMap = Map.of("x0.5 (Slow)", 0.5, "x1 (Normal)", 1.0, "x1.5 (Fast)", 1.5, "x2 (Very Fast)", 2.0);
+        speedChoiceBox.getItems().addAll("x0.5 (Slow)", "x1 (Normal)", "x1.5 (Fast)", "x2 (Very Fast)");
+        double currentSpeed = ((Number) config.getConfig().getOrDefault("Speed", 1.0)).doubleValue();
+        String currentSpeedLabel = speedMap.entrySet().stream()
+                .filter(e -> e.getValue().equals(currentSpeed))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse("x1 (Normal)");
+        speedChoiceBox.setValue(currentSpeedLabel);
+        speedChoiceBox.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setMargin(speedChoiceBox, new Insets(0, 14, 12, 14));
+        gridPane.add(speedChoiceBox, 0, 9, 2, 1);
+
         // Size
         Text sizeLabel = new Text("Size (px)");
         sizeLabel.setId("section-label");
         GridPane.setMargin(sizeLabel, new Insets(0, 0, 5, 14));
-        gridPane.add(sizeLabel, 0, 8, 2, 1);
+        gridPane.add(sizeLabel, 0, 10, 2, 1);
 
         TextField gifSizeTextField = new TextField();
         gifSizeTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -119,12 +140,12 @@ public class OptionDisplay {
         gifSizeTextField.setPromptText("50 — 1000");
         gifSizeTextField.setMaxWidth(80);
         GridPane.setMargin(gifSizeTextField, new Insets(0, 0, 12, 14));
-        gridPane.add(gifSizeTextField, 0, 9, 2, 1);
+        gridPane.add(gifSizeTextField, 0, 11, 2, 1);
 
         // Separator
         Separator sep = new Separator();
         GridPane.setMargin(sep, new Insets(4, 14, 12, 14));
-        gridPane.add(sep, 0, 10, 3, 1);
+        gridPane.add(sep, 0, 12, 3, 1);
 
         // Checkboxes
         HBox checksBox = new HBox(8);
@@ -140,18 +161,18 @@ public class OptionDisplay {
         savePositionCheckbox.setSelected((Boolean) config.getConfig().getOrDefault("SavePosition", false));
 
         checksBox.getChildren().addAll(musicCheckbox, alwaysOnTopCheckbox, savePositionCheckbox);
-        gridPane.add(checksBox, 0, 11, 3, 1);
+        gridPane.add(checksBox, 0, 13, 3, 1);
 
         // Footer separator
         Separator sep2 = new Separator();
         GridPane.setMargin(sep2, new Insets(4, 0, 0, 0));
-        gridPane.add(sep2, 0, 12, 3, 1);
+        gridPane.add(sep2, 0, 14, 3, 1);
 
         // Authors
         Text authorText = new Text("github.com/DEVS-MARKET\ndiscord.gg/KhExwvqZb5");
         authorText.setId("authors-text");
         GridPane.setMargin(authorText, new Insets(12, 0, 12, 14));
-        gridPane.add(authorText, 0, 13);
+        gridPane.add(authorText, 0, 15);
 
         // Buttons
         HBox buttonBox = new HBox(8);
@@ -168,12 +189,13 @@ public class OptionDisplay {
                 Integer.parseInt(gifSizeTextField.getText()),
                 musicCheckbox.isSelected(),
                 alwaysOnTopCheckbox.isSelected(),
-                savePositionCheckbox.isSelected()
+                savePositionCheckbox.isSelected(),
+                speedMap.get(speedChoiceBox.getSelectionModel().getSelectedItem())
         ));
 
         buttonBox.getChildren().addAll(exitButton, saveConfigButton);
         GridPane.setMargin(buttonBox, new Insets(12, 14, 12, 0));
-        gridPane.add(buttonBox, 1, 13);
+        gridPane.add(buttonBox, 1, 15);
 
         gridPane.getStyleClass().add("main-container");
         return gridPane;

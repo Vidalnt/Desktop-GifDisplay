@@ -82,7 +82,9 @@ public class GifDisplay extends Application {
         ImageView imageView = new ImageView();
         if(gifImage == null) {
             List<File> images = gifLoader.getFrames(gifName);
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis((double) 1000 / 30), e -> updateFrame(images, imageView)));
+            double speed = ((Number) config.getConfig().getOrDefault("Speed", 1.0)).doubleValue();
+            double frameDelay = (1000.0 / 30.0) / speed;
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(frameDelay), e -> updateFrame(images, imageView)));
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
         }else{
