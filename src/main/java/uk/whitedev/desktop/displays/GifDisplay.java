@@ -65,6 +65,14 @@ public class GifDisplay extends Application {
 
         mainStage.setAlwaysOnTop(isAlwaysOnTop);
         mainStage.setScene(scene);
+
+        double posX = ((Number) config.getConfig().getOrDefault("PosX", -1)).doubleValue();
+        double posY = ((Number) config.getConfig().getOrDefault("PosY", -1)).doubleValue();
+        if (posX >= 0 && posY >= 0) {
+            mainStage.setX(posX);
+            mainStage.setY(posY);
+        }
+
         mainStage.show();
 
         if (isMusic) musicFunc.playMusic(musicPath, standardGif);

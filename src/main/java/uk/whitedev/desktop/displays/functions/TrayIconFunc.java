@@ -3,6 +3,7 @@ package uk.whitedev.desktop.displays.functions;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import uk.whitedev.desktop.Config;
 import uk.whitedev.desktop.displays.GifDisplay;
 import uk.whitedev.desktop.displays.OptionDisplay;
 
@@ -15,6 +16,7 @@ import java.util.Objects;
 public class TrayIconFunc {
 
     private final OptionDisplay optionDisplay = new OptionDisplay();
+    private final Config config = Config.getInstance();
 
     public void addIconToSysTray(Stage stage) {
         try {
@@ -41,6 +43,11 @@ public class TrayIconFunc {
         ActionListener optionsListener = e -> Platform.runLater(() -> optionDisplay.showOptionDisplay(stage));
 
         ActionListener exitListener = e -> {
+            if ((Boolean) config.getConfig().getOrDefault("SavePosition", false)) {
+                config.updateConfig("PosX", stage.getX());
+                config.updateConfig("PosY", stage.getY());
+                config.saveConfig();
+            }
             tray.remove(trayIcon);
             Platform.exit();
             System.exit(0);
