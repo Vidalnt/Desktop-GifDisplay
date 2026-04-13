@@ -40,7 +40,13 @@ public class TrayIconFunc {
             stage.toFront();
         });
 
-        ActionListener optionsListener = e -> Platform.runLater(() -> optionDisplay.showOptionDisplay(stage));
+        ActionListener optionsListener = e -> Platform.runLater(() -> {
+            if ((Boolean) config.getConfig().getOrDefault("SavePosition", false)) {
+                config.updateConfig("PosX", stage.getX());
+                config.updateConfig("PosY", stage.getY());
+            }
+            optionDisplay.showOptionDisplay(stage);
+        });
 
         ActionListener exitListener = e -> {
             if ((Boolean) config.getConfig().getOrDefault("SavePosition", false)) {
