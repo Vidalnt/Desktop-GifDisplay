@@ -33,7 +33,6 @@ public class GifDisplay extends Application {
     private static Stage activeMainStage = null;
     private static Timeline activeTimeline = null;
     private static Stage primaryStageRef = null;
-    
     private static int currentFrameIndex = 0;
     private static List<File> currentFrames = null;
 
@@ -45,12 +44,12 @@ public class GifDisplay extends Application {
         primaryStage.setHeight(0);
         primaryStage.setWidth(0);
         primaryStage.show();
-        
-        showGifDisplay();
+        showGifDisplay(primaryStage);
     }
 
-    private void showGifDisplay() {
+    private void showGifDisplay(Stage primaryStage) {
         Stage mainStage = new Stage();
+        mainStage.initOwner(primaryStage);
         mainStage.initStyle(StageStyle.TRANSPARENT);
         activeMainStage = mainStage;
         renderGifDisplay(mainStage);
@@ -106,11 +105,16 @@ public class GifDisplay extends Application {
             final List<File> frames = currentFrames;
             final ImageView iv = imageView;
             
-            KeyFrame keyFrame = new KeyFrame(Duration.millis(frameDelay), e -> updateFrame(frames, iv));
+            KeyFrame keyFrame = new KeyFrame(Duration.millis(frameDelay), e -> {
+                updateFrame(frames, iv);
+            });
+            
             timeline.getKeyFrames().add(keyFrame);
             timeline.play();
             
-            if (activeTimeline != null) activeTimeline.stop();
+            if (activeTimeline != null) {
+                activeTimeline.stop();
+            }
             activeTimeline = timeline;
             
             if (!currentFrames.isEmpty()) {
@@ -138,7 +142,7 @@ public class GifDisplay extends Application {
         });
 
         root.setOnMouseDragged(event -> {
-            if (!ISLOCKED) {
+            if (!ISLOCKED && activeMainStage != null) {
                 activeMainStage.setX(event.getScreenX() - xOffset);
                 activeMainStage.setY(event.getScreenY() - yOffset);
             }
@@ -147,14 +151,12 @@ public class GifDisplay extends Application {
         return scene;
     }
 
-    /**
-     * Hot-reloads the GIF display with updated configuration.
-     */
     public static void reload() {
         Platform.runLater(() -> {
             if (activeMainStage == null) return;
 
             musicFunc.stopMusic();
+            
             if (activeTimeline != null) {
                 activeTimeline.stop();
                 activeTimeline = null;
@@ -179,11 +181,11 @@ public class GifDisplay extends Application {
 
             activeMainStage.setScene(newScene);
             activeMainStage.setAlwaysOnTop(isAlwaysOnTop);
-            activeMainStage.sizeToScene();
             activeMainStage.show();
-            activeMainStage.toFront();
 
-            if (isMusic) musicFunc.playMusic(musicPath, standardGif);
+            if (isMusic) {
+                musicFunc.playMusic(musicPath, standardGif);
+            }
         });
     }
     
@@ -205,7 +207,10 @@ public class GifDisplay extends Application {
             final List<File> frames = currentFrames;
             final ImageView iv = imageView;
             
-            KeyFrame keyFrame = new KeyFrame(Duration.millis(frameDelay), e -> updateFrameStatic(frames, iv));
+            KeyFrame keyFrame = new KeyFrame(Duration.millis(frameDelay), e -> {
+                updateFrameStatic(frames, iv);
+            });
+            
             timeline.getKeyFrames().add(keyFrame);
             timeline.play();
             activeTimeline = timeline;
@@ -232,7 +237,7 @@ public class GifDisplay extends Application {
         });
 
         root.setOnMouseDragged(event -> {
-            if (!ISLOCKED) {
+            if (!ISLOCKED && activeMainStage != null) {
                 activeMainStage.setX(event.getScreenX() - xOffset);
                 activeMainStage.setY(event.getScreenY() - yOffset);
             }
