@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import uk.whitedev.desktop.Config;
 import uk.whitedev.desktop.displays.functions.OptionsFunc;
 
@@ -26,10 +27,12 @@ public class OptionDisplay {
     private TextField musicPathTextField;
     private final Config config = Config.getInstance();
     private final List<String> gifsName = List.of("Konata", "Konosuba", "GoBang", "Chicka", "NekoMain");
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     public void showOptionDisplay(Stage ownerStage) {
         Stage optionsStage = new Stage();
-        // Use utility primaryStage as owner to avoid white background bug on GIF display
+        optionsStage.initStyle(StageStyle.TRANSPARENT);
         optionsStage.initOwner(GifDisplay.getPrimaryStageRef());
         setStageLocation(optionsStage);
 
@@ -37,6 +40,17 @@ public class OptionDisplay {
         Scene scene = new Scene(gridPane);
         scene.setFill(Color.TRANSPARENT);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/assets/styles/theme.css")).toString());
+        
+        gridPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        gridPane.setOnMouseDragged(event -> {
+            optionsStage.setX(event.getScreenX() - xOffset);
+            optionsStage.setY(event.getScreenY() - yOffset);
+        });
+        
         optionsStage.setScene(scene);
         optionsStage.show();
     }
@@ -45,6 +59,7 @@ public class OptionDisplay {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(8);
         gridPane.setVgap(0);
+        gridPane.getStyleClass().add("main-container");
 
         // Title bar
         Region titleBg = new Region();
@@ -222,7 +237,6 @@ public class OptionDisplay {
         GridPane.setMargin(buttonBox, new Insets(12, 14, 12, 0));
         gridPane.add(buttonBox, 1, 15);
 
-        gridPane.getStyleClass().add("main-container");
         return gridPane;
     }
 
