@@ -1,14 +1,14 @@
 package uk.whitedev.desktop.displays.functions;
 
+import javafx.stage.Stage;
 import uk.whitedev.desktop.Config;
-
-import java.io.File;
-import java.io.IOException;
+import uk.whitedev.desktop.displays.GifDisplay;
 
 public class OptionsFunc {
     private final Config config = Config.getInstance();
 
-    public void saveConfig(String gif, String musicPath, String gifPath, int gifSize, boolean music, boolean onTop, boolean savePosition, double speed){
+    public void saveConfig(Stage optionsStage, String gif, String musicPath, String gifPath,
+                           int gifSize, boolean music, boolean onTop, boolean savePosition, double speed) {
         config.updateConfig("Gif", gif);
         config.updateConfig("MusicPath", musicPath);
         config.updateConfig("GifPath", gifPath);
@@ -18,16 +18,10 @@ public class OptionsFunc {
         config.updateConfig("SavePosition", savePosition);
         config.updateConfig("Speed", speed);
         config.saveConfig();
-        runGifDisplay();
-        System.exit(0);
-    }
 
-    private void runGifDisplay(){
-        ProcessBuilder processBuilder = new ProcessBuilder("Start.bat");
-        try {
-            processBuilder.start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if (optionsStage != null) optionsStage.close();
+
+        // Hot-reload GIF display without restarting the application
+        GifDisplay.reload();
     }
 }

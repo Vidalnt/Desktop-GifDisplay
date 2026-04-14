@@ -10,14 +10,34 @@ public class MusicFunc {
     private MediaPlayer mediaPlayer;
 
     public void playMusic(String musicPath, String defaultMusic) {
-        String path = musicPath.isEmpty()
-                ? getClass().getResource(defaultMusic.equals("GoBang") ? "/assets/music/GoBang Music.wav" : "/assets/music/Default Song.wav").toString()
-                : new File(musicPath).toURI().toString();
+        stopMusic();
+        
+        String path;
+        if (musicPath == null || musicPath.isEmpty()) {
+            String resourcePath;
+            if (defaultMusic.equals("GoBang")) {
+                resourcePath = "/assets/music/GoBang Music.wav";
+            } else if (defaultMusic.equals("ChibiSakuya")) {
+                resourcePath = "/assets/music/danceofnights.wav";
+            } else {
+                resourcePath = "/assets/music/Default Song.wav";
+            }
+            path = getClass().getResource(resourcePath).toString();
+        } else {
+            path = new File(musicPath).toURI().toString();
+        }
 
         Media media = new Media(path);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
         mediaPlayer.play();
     }
-}
 
+    public void stopMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+            mediaPlayer = null;
+        }
+    }
+}

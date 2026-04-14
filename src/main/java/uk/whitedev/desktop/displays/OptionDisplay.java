@@ -27,17 +27,21 @@ public class OptionDisplay {
     private final Config config = Config.getInstance();
     private final List<String> gifsName = List.of("Konata", "Konosuba", "GoBang", "Chicka", "NekoMain");
 
-    public void showOptionDisplay(Stage stage) {
-        setStageLocation(stage);
-        GridPane gridPane = generateOptions(stage);
+    public void showOptionDisplay(Stage ownerStage) {
+        Stage optionsStage = new Stage();
+        // Use utility primaryStage as owner to avoid white background bug on GIF display
+        optionsStage.initOwner(GifDisplay.getPrimaryStageRef());
+        setStageLocation(optionsStage);
+
+        GridPane gridPane = generateOptions(optionsStage);
         Scene scene = new Scene(gridPane);
         scene.setFill(Color.TRANSPARENT);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/assets/styles/theme.css")).toString());
-        stage.setScene(scene);
-        stage.show();
+        optionsStage.setScene(scene);
+        optionsStage.show();
     }
 
-    private GridPane generateOptions(Stage stage) {
+    private GridPane generateOptions(Stage optionsStage) {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(8);
         gridPane.setVgap(0);
@@ -203,6 +207,7 @@ public class OptionDisplay {
         Button saveConfigButton = new Button("Save config");
         saveConfigButton.setId("save-button");
         saveConfigButton.setOnMouseClicked(e -> optionsFunc.saveConfig(
+                optionsStage,
                 gifChoiceBox.getSelectionModel().getSelectedItem(),
                 musicPathTextField.getText(),
                 gifPathTextField.getText(),
