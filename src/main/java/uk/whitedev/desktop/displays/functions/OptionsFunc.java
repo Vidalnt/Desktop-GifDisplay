@@ -21,7 +21,6 @@ public class OptionsFunc {
 
         if (optionsStage != null) optionsStage.close();
 
-        // Hot-reload GIF display without restarting the application
         GifDisplay.reload();
     }
 }
